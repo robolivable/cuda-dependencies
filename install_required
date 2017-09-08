@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# enable epel repo
+# edit enabled=0 to enabled=1
+sudo vi /etc/yum.repos.d/epel.repo
+
+sudo yum-config-manager --enable epel && sudo yum repolist && sudo yum update
+
+# required common
+sudo yum install -y automake git openssl-devel curl-devel gcc gcc-c++ glib kernel-devel-$(uname -r) kernel-headers-$(uname -r)
+
+# required cuda
+sudo yum install -y cairo pango dkms libX11-devel freeglut-devel libXi-devel libXmu-devel mesa-libGLU-devel 
+
+# required cuda *not available thru package manager*
+#rpm -i cuda-repo-rhel6-8.0.61-1.x86_64.rpm
+#rpm -i atk-1.30.0-1.el6.x86_64.rpm
+#rpm -i hicolor-icon-theme-0.11-1.1.el6.noarch.rpm
+#rpm -i libXcursor-1.1.14-2.1.el6.x86_64.rpm 
+#rpm -i libXinerama-1.1.3-2.1.el6.x86_64.rpm 
+#rpm -i libXrandr-1.5.1-1.el6.x86_64.rpm
+#rpm -i avahi-libs-0.6.25-17.el6.x86_64.rpm
+#rpm -i gnutls-2.12.23-21.el6.x86_64.rpm
+#rpm -i libtiff-3.9.4-21.el6_8.x86_64.rpm 
+#rpm -i cups-libs-1.4.2-77.el6.x86_64.rpm 
+#rpm -i jasper-libs-1.900.1-16.el6_6.3.x86_64.rpm 
+#rpm -i gdk-pixbuf2-2.24.1-6.el6_7.x86_64.rpm 
+#rpm -i gtk2-2.24.23-9.el6.x86_64.rpm 
+for f in *.rpm;
+do
+    sudo rpm -i $f;
+done
+
+# install cuda
+sudo yum --disablerepo="amzn*" install cuda
+
